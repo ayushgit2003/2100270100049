@@ -1,28 +1,23 @@
-// controllers/ProductController.js
+ 
 const ProductService = require('../services/ProductService');
 
 class ProductController {
-  constructor() {
-    this.productService = new ProductService();
-  }
-
   async getProductsByCategory(req, res) {
     try {
-      const { categoryname, companyname } = req.params;
-      const { top, page = 1, sortBy = 'price', sortOrder = 'asc', minPrice = 0, maxPrice = Infinity } = req.query;
+      const { categoryname } = req.params;
+      const { top = 10, minPrice, maxPrice, page = 1, sort = 'price', order = 'asc' } = req.query;
 
-      const products = await this.productService.getProductsByCategory(
+      const products = await ProductService.getProductsByCategory({
         categoryname,
-        companyname,
-        parseInt(top, 10),
-        parseInt(page, 10),
-        sortBy,
-        sortOrder === 'asc' ? 1 : -1,
-        parseFloat(minPrice),
-        parseFloat(maxPrice)
-      );
+        top,
+        minPrice,
+        maxPrice,
+        page,
+        sort,
+        order
+      });
 
-      res.status(200).json(products);
+      res.json(products);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -31,14 +26,13 @@ class ProductController {
   async getProductById(req, res) {
     try {
       const { categoryname, productid } = req.params;
+      const product = await ProductService.getProductById(categoryname, productid);
 
-      const product = await this.productService.getProductById(productid);
-
-      if (!product || product.category !== categoryname) {
-        return res.status(404).json({ message: 'Product not found' });
+      if (product) {
+        res.json(product);
+      } else {
+        res.status(404).send('Product not found');
       }
-
-      res.status(200).json(product);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }

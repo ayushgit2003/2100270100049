@@ -1,10 +1,9 @@
-// routes/productRoutes.js
+
 const express = require('express');
-const productController = require('./controllers/ProductController');
-
 const router = express.Router();
+const ProductController = require('./controllers/ProductController');
 
-router.get('/companies/:companyname/categories/:categoryname/products', productController.getProductsByCategory.bind(productController));
-router.get('/companies/:companyname/categories/:categoryname/products/:productid', productController.getProductById.bind(productController));
+router.get('/categories/:categoryname/products', ProductController.getProductsByCategory.bind(ProductController));
+router.get('/categories/:categoryname/products/:productid', ProductController.getProductById.bind(ProductController));
 
 module.exports = router;
