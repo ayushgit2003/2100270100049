@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ProductCard from './components/ProductCard';
-import './App.css';
+import ProductCard from './ProductCard';
+import '../App.css';
 
-const App = () => {
+const Landing = () => {
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState('Laptop');
   const [sortby, setSortby] = useState('');
@@ -55,7 +55,7 @@ const App = () => {
             <option value="desc">Descending</option>
           </select>
           <input type="number" placeholder="Min Price" value={minPrice} onChange={(e) => setMinPrice(e.target.value)} />
-          <input type="number" placeholder="Max Price" value={maxPrice} style={{margin:"1rem"}} onChange={(e) => setMaxPrice(e.target.value)} />
+          <input type="number" placeholder="Max Price" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)} />
         </div>
         <div className="product-list">
           {products.map((product) => (
@@ -67,4 +67,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Landing;

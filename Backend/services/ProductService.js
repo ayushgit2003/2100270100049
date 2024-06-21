@@ -35,7 +35,7 @@ class ProductService {
     });
   }
 
-  getProductsByCategory({ categoryname, top, minPrice, maxPrice, page, sort, order }) {
+  getProductsByCategory({ categoryname, top, minPrice, maxPrice, page, sort, order,minRating,maxRating }) {
     let data = this.loadData();
     
  
@@ -50,10 +50,16 @@ class ProductService {
 
   
     if (minPrice) {
-      products = products.filter(product => product.price >= minPrice);
+       products = products.filter(product => product.price >= minPrice);
     }
-    if (maxPrice) {
+     if (maxPrice) {
       products = products.filter(product => product.price <= maxPrice);
+    }
+    if (minRating) {
+      products = products.filter(product => product.rating >= minRating);
+    }
+    if (maxRating) {
+      products = products.filter(product => product.rating <= maxRating);
     }
 
     // Apply sorting
@@ -66,7 +72,7 @@ class ProductService {
     }
 
   
-    const pageSize = parseInt(top, 10);
+    const pageSize = parseInt(top, 5);
     const startIndex = (page - 1) * pageSize;
     const endIndex = startIndex + pageSize;
     return products.slice(startIndex, endIndex);
